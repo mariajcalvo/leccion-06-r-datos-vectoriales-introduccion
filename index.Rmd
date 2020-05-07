@@ -173,6 +173,6 @@ Se realiza con las funciones ```st_read()``` y ```st_write()```:
 # COVID-19 en cantones de Costa Rica
 cr_cantones_covid19 <- st_read("https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/cr/cr-covid19-cantones.geojson")
 
-# Mapa de casos confirmados de COVID-19
-plot(cr_cantones_covid19["confirmados"], main="Casos confirmados de COVID-19 en los cantones de Costa Rica", ylab="Cantidad de casos")
+# Mapa de coropletas de casos confirmados de COVID-19
+plot(cr_cantones_covid19["confirmados"], main="Casos confirmados de COVID-19 en los cantones de Costa Rica")
 ```
