@@ -20,6 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * [Geocomputation with R - Chapter 1 Introduction](https://geocompr.robinlovelace.net/intro.html)
 * [Geocomputation with R - Chapter 2 Geographic data in R](https://geocompr.robinlovelace.net/spatial-class.html)
 
+
 * Sitio web del curso: [GF-0604: Procesamiento de datos geográficos](https://geoprocesamiento-2020i.github.io/).
 * Datos utilizados durante el curso: [Datos del curso GF-0604: Procesamiento de datos geográficos](https://github.com/geoprocesamiento-2020i/datos).
 
@@ -41,8 +42,6 @@ El modelo de datos vectorial está basado en puntos localizados en un [sistema d
 
 La especificación define 17 tipos de geometrías, de las cuales siete son las más comúnmente utilizadas. Estas últimas se muestran en la figura 1:
 
-
-
 ![Figura 1: Tipos de geometrías de Simple Features más usadas. Imagen de Robin Lovelace et al. (https://geocompr.robinlovelace.net/spatial-class.html#vector-data)](img/sf_types.png)
 
 ## El paquete sf
@@ -54,7 +53,7 @@ El paquete [sf](https://cran.r-project.org/web/packages/sf/index.html) (de _Simp
 
 sf provee acceso, desde un mismo paquete de R, a la funcionalidad de estas tres bibliotecas, proporcionando así una interfaz unificada para leer y escribir datos geoespaciales mediante GDAL, realizar operaciones con geometrías mediante GEOS y efectuar transformaciones entre sistemas de coordenadas mediante PROJ.
 
-### Instalación y carga
+### Instalación y carga de sf
 Instalación:
 ```{r eval = F}
 # Instalación de sf
@@ -62,7 +61,7 @@ install.packages("sf")
 ```
 
 Carga:
-```{r eval = F}
+```{r}
 # Carga de sf
 library(sf)
 ```
@@ -76,7 +75,24 @@ vignette(package = "sf")
 vignette("sf1")          
 ```
 
-### Conjuntos de datos utilizados en los ejemplos
-En los siguientes ejemplos y ejercicios, se utilizarán dos conjuntos de datos, los cuales se cargan en data frames con la función ```read.csv()``` y se visualizan con la función ```View()```:
+### Instalación de conjuntos de datos utilizados en los ejemplos
+Para ejemplos, se utilizarán los conjuntos de datos [spData](https://cran.r-project.org/web/packages/spData/) y [spDataLarge](https://github.com/Nowosad/spDataLarge).
+```{r eval = F}
+# Instalación de spData
+install.packages("spData")
+
+# Instalación de spDataLarge
+# Si es necesario, instale antes el paquete remotes con install.packages("remotes")
+remotes::install_github("Nowosad/spDataLarge")
+```
+
+Carga:
+```{r}
+# Carga de spData y spDataLarge
+library(spData)
+library(spDataLarge)
+```
+
+
 
 #### Casos de ...
