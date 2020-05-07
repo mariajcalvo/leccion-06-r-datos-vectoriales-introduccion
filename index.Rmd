@@ -53,6 +53,14 @@ El paquete [sf](https://cran.r-project.org/web/packages/sf/index.html) (de _Simp
 
 sf provee acceso, desde un mismo paquete de R, a la funcionalidad de estas tres bibliotecas, proporcionando así una interfaz unificada para leer y escribir datos geoespaciales mediante GDAL, realizar operaciones con geometrías mediante GEOS y efectuar transformaciones entre sistemas de coordenadas mediante PROJ.
 
+sf cuenta con varias ventajas con respecto a otros paquetes geoespaciales de R (ej. sp):
+
+* Rápida lectura y escritura de datos.
+* Rendimiento de graficación mejorado.
+* Manejo de objetos como data frames.
+* Las funciones pueden combinarse con el operador %>%, lo que las combina bien con los paquetes de [tidyverse](https://www.tidyverse.org/).
+* Los nombres de las funciones son consistentes e intuitivos (comienzan con ```st_```).
+
 En sf, los conjuntos de datos geoespaciales se almacenan en un data frame que contiene una columna especial para las geometrías. Esta columna se denomina generalmente ```geom``` o ```geometry```. El manejo de datos geoespaciales como data frames, permite manipularlos con las funciones ya desarrolladas para data frames (ej. ```summary()```, ```View()```, ```str()```) y con la misma forma de referencias las filas (observaciones) y las columnas (variables).
 
 ### Instalación y carga de sf
@@ -95,10 +103,10 @@ library(spData)
 library(spDataLarge)
 ```
 
-#### Ejemplos de uso de sf
+### Ejemplos de uso de sf
 En los siguientes ejemplos, se utilizará el conjunto de datos world de ```spData```.
 
-##### Exploración inicial de datos
+#### Exploración inicial de datos
 Con la función ```names()```, pueden desplegarse los nombres de las columnas de un data frame:
 ```{r}
 # Despliegue de los nombres de columnas
@@ -116,8 +124,55 @@ sf implementa la función llamada ```plot()``` para visualización de datos geog
 plot(world)
 ```
 
-En el ejemplo anterior, se desplegó un mapa por cada variable (i.e. cada columna). ```plot()``` permite también desplegar el mapa correspondiente a una columna particular:
+En el ejemplo anterior, se desplegó un mapa por cada variable (i.e. cada columna). ```plot()``` permite también desplegar el mapa correspondiente a una variable particular:
 ```{r}
 # Despliegue de datos geoespaciales de una columna
 plot(world["pop"])
+```
+
+#### Filtrado de datos
+Puede separarse una "porción" de un data frame geoespacial de la misma forma en la que se hace con cualquier otro data frame:
+```{r}
+# Subconjunto de un data frame
+world_muestra <- world[1:2, 1:8]
+
+# Despliegue tabular
+world_muestra
+
+# Despliegue del mapa de población
+plot(world_muestra["pop"])
+```
+
+También puede realizarse con filtro con base en el valor de los datos de una columna:
+```{r}
+# Países del continente africano
+africa_paises = world[world$continent == "Africa", ]
+
+# Mapa de producto interno bruto
+plot(africa_paises["gdpPercap"], main="Producto interno bruto per capita")
+```
+
+#### Confección de mapas
+Es posible agregar capas a un mapa mediante el uso de los parámetros ```reset=FALSE``` y ```add=TRUE``` de la función ```plot()```.
+```{r}
+# Filtro para crear data frame con países de África
+africa_paises <- world[world$continent == "Africa", ]
+
+# La función st_union() realiza una unión de los polígonos
+africa_continente <- st_union(africa_paises)
+
+# Primera capa del mapa
+plot(world["pop"], reset=FALSE)
+# Segunda capa
+plot(africa_continente, add=TRUE, col = "red")
+```
+
+#### Lectura y escritura de datos
+Se realiza con las funciones ```st_read()``` y ```st_write()```:
+```{r}
+# COVID-19 en cantones de Costa Rica
+cr_cantones_covid19 <- st_read("https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/cr/cr-covid19-cantones.geojson")
+
+# Mapa de casos confirmados de COVID-19
+plot(cr_cantones_covid19["confirmados"], main="Casos confirmados de COVID-19 en los cantones de Costa Rica", ylab="Cantidad de casos")
 ```
