@@ -221,7 +221,13 @@ Mapa de provincias y registros de presencia:
 cr_provincias_wgs84 = st_transform(cr_provincias, 4326)
 
 # Primera capa del mapa
-plot(cr_provincias_wgs84$geometry, reset=FALSE)
+plot(cr_provincias_wgs84$geometry, 
+     main="Distribución de Ara ambiguus en Costa Rica",
+     reset=FALSE, 
+     axes = TRUE,
+     graticule=TRUE
+)
+
 # Segunda capa
-plot(cr_ara_ambiguus$geometry, add=TRUE, col = "red")
+plot(cr_ara_ambiguus$geometry, add=TRUE, col = "green")
 ```
