@@ -1,7 +1,7 @@
 ---
-title: "El lenguaje de programación R - Datos vectoriales"
+title: "El lenguaje de programación R - Datos vectoriales - introducción"
 author: "Manuel Vargas"
-date: "2020-05-07"
+date: "2020-09-30"
 output:
   html_document:
     theme: readable    
@@ -12,27 +12,19 @@ output:
       smooth_scroll: false    
 ---
 
+El código fuente de este documento está disponible en https://github.com/pf0953-programaciongeoespacialr-2020/leccion-06-r-datos-vectoriales-introduccion.git.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Recursos de interés
+* Sitio web del curso: [PF0953 Programación geoespacial en R](https://pf0953-programaciongeoespacialr-2020.github.io/)
+* Datos utilizados en el curso: [Datos del curso PF0953 Programación geoespacial en R](https://github.com/pf0953-programaciongeoespacialr-2020/datos)
 * [Geocomputation with R - Chapter 1 Introduction](https://geocompr.robinlovelace.net/intro.html)
 * [Geocomputation with R - Chapter 2 Geographic data in R](https://geocompr.robinlovelace.net/spatial-class.html)
-
-
-* Sitio web del curso: [GF-0604: Procesamiento de datos geográficos](https://geoprocesamiento-2020i.github.io/).
-* Datos utilizados durante el curso: [Datos del curso GF-0604: Procesamiento de datos geográficos](https://github.com/geoprocesamiento-2020i/datos).
-
-## Descripción general
-En esta lección se cubren algunas de las capacidades del lenguaje de programación [R](https://www.r-project.org/) para manejo de datos vectoriales. Se presentan los principales estándares, paquetes y algunos ejemplos de mapas elaborados con este tipo de datos. 
-
-## Objetivos
-1. Conocer el estándar _Simple Features_ de datos vectoriales.
-2. Aprender a instalar y a utilizar el paquete sf.
-
-## Trabajo previo
-Se recomienda leer el [capítulo 2 del libro _Geocomputation with R_, de Robin Lovelace et al.](https://geocompr.robinlovelace.net/spatial-class.html), en el cual está basado este documento.
+* Sitio web del estándar _Simple Features_: [Simple Features](https://www.ogc.org/standards/sfa)
+* Sitio oficial del paquete sf: [sf](https://cran.r-project.org/web/packages/sf/)
 
 ## El modelo de datos vectorial
 El modelo de datos vectorial está basado en puntos localizados en un [sistema de referencia de coordenadas (CRS)](https://en.wikipedia.org/wiki/Spatial_reference_system). Los puntos individuales pueden representar objetos independientes (ej. la localización de un poste eléctrico o de una cabina telefónica) o pueden también agruparse para formar geometrías más complejas como líneas o polígonos. Por lo general, los puntos tienen solo dos dimensiones (x, y), a las que se les puede agregar una tercera dimensión _z_, usualmente correspondiente a la altitud sobre el nivel del mar.
@@ -45,7 +37,7 @@ La especificación define 17 tipos de geometrías, de las cuales siete son las m
 ![Figura 1: Tipos de geometrías de Simple Features más usadas. Imagen de Robin Lovelace et al. (https://geocompr.robinlovelace.net/spatial-class.html#vector-data)](img/sf_types.png)
 
 ## El paquete sf
-El paquete [sf](https://cran.r-project.org/web/packages/sf/index.html) (de _Simple Features_) de R implementa los modelos de datos de las geometrías de tipo vectorial: puntos, líneas, polígonos, sus versiones múltiples y las colecciones de geometrías. Está basado en bibliotecas de sofware ampliamente utilizadas en aplicaciones geoespaciales:
+El paquete [sf](https://cran.r-project.org/web/packages/sf/) (de _Simple Features_) de R implementa los modelos de datos de las geometrías de tipo vectorial: puntos, líneas, polígonos, sus versiones múltiples y las colecciones de geometrías. Está basado en bibliotecas de sofware ampliamente utilizadas en aplicaciones geoespaciales:
 
 * **GDAL**: [Geospatial Data Abstraction Library (GDAL)](https://gdal.org/) es una biblioteca para leer y escribir datos geoespaciales en varios formatos [raster](https://gdal.org/drivers/raster/) y [vectoriales](https://gdal.org/drivers/vector/). Implementa un único [modelo abstracto de datos raster](https://gdal.org/user/raster_data_model.html) y un único [modelo abstracto de datos vectoriales](https://gdal.org/user/vector_data_model.html), lo que permite programar aplicaciones geoespaciales sin tener que ocuparse de las particularidades de cada formato que se utilice (GeoTIFF, NetCDF, ESRI Shapefile, GeoJSON, etc.). A pesar de que GDAL está programada en C/C++, cuenta con una interfaz de programación de aplicaciones (API) para varios lenguajes de programación, incluyendo [C](https://gdal.org/api/index.html#c-api), [C++](https://gdal.org/api/index.html#id3), [Python](https://gdal.org/python/index.html) y [Java](https://gdal.org/java/overview-summary.html). Además, ofrece un conjunto de [utilitarios de línea de comandos](https://gdal.org/programs/) cuyas [distribuciones binarias](https://gdal.org/download.html#binaries) están disponibles para varios sistemas operativos, incluyendo Windows, macOS y Linux.
 * **GEOS**: [Geometry Engine, Open Source (GEOS)](https://trac.osgeo.org/geos) es una implmentación en C++ de la biblioteca [JTS Topology Suite](http://www.tsusiatsoftware.net/jts/main.html) (desarrollada en Java) y que implementa un conjunto de operaciones y predicados geoespaciales (ej. unión, intersección, distancia, área).
@@ -92,7 +84,7 @@ Para ejemplos, se utilizarán los conjuntos de datos [spData](https://cran.r-pro
 install.packages("spData")
 
 # Instalación de spDataLarge
-# Si es necesario, instale antes el paquete remotes con install.packages("remotes")
+install.packages("remotes")
 remotes::install_github("Nowosad/spDataLarge")
 ```
 
@@ -107,7 +99,7 @@ library(spDataLarge)
 En los siguientes ejemplos, se utilizará el conjunto de datos world de ```spData```.
 
 #### Exploración inicial de datos
-Con la función ```names()```, pueden desplegarse los nombres de las columnas de un data frame:
+Con la función [names()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names), pueden desplegarse los nombres de las columnas de un data frame:
 ```{r}
 # Despliegue de los nombres de columnas
 names(world)
