@@ -141,7 +141,10 @@ También puede realizarse con filtro con base en el valor de los datos de una co
 africa_paises = world[world$continent == "Africa", ]
 
 # Mapa de producto interno bruto
-plot(africa_paises["gdpPercap"], main="Producto interno bruto per capita")
+plot(
+  africa_paises["gdpPercap"], 
+  main="Producto interno bruto per capita"
+)
 ```
 
 #### Confección de mapas
@@ -169,21 +172,26 @@ Las operaciones de lectura tranforman datos contenidos en diferentes fuentes al 
 Lectura de un archivo geoespacial:
 ```{r}
 # COVID-19 en cantones de Costa Rica
-cr_cantones_covid19 <- st_read("https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/cr/cr-covid19-cantones.geojson")
+cr_cantones_covid19 <- 
+  st_read("https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/covid19/casos/cr/cr-covid19-cantones.geojson")
 
 # Mapa de coropletas de casos confirmados de COVID-19
-plot(cr_cantones_covid19["confirmados"], main="Casos confirmados de COVID-19 en los cantones de Costa Rica")
+plot(
+  cr_cantones_covid19["confirmados"], 
+  main="Casos confirmados de COVID-19 en los cantones de Costa Rica"
+)
 ```
 
 Lectura de un [Web Feature Service (WFS)](https://www.ogc.org/standards/wfs). Se utiliza una capa publicada por el Instituto Geográfico Nacional (IGN) en la [Infraestructura Nacional de Datos Espaciales de Costa Rica (SNIT)](http://www.snitcr.go.cr/):
-```{r}
+```{r warning = FALSE, message = FALSE}
 # Dirección base del servicio WFS
 url_base <- "http://geos.snitcr.go.cr/be/IGN_5/wfs?"
 
 # Parámetros de la solicitud WFS de la capa:
 #   typeName: nombre de la capa
 #   outputFormat: formato de salida
-solicitud_wfs <- "request=GetFeature&service=WFS&version=2.0.0&typeName=IGN_5:limiteprovincial_5k&outputFormat=application/json"
+solicitud_wfs <- 
+  "request=GetFeature&service=WFS&version=2.0.0&typeName=IGN_5:limiteprovincial_5k&outputFormat=application/json"
 
 # URL completo del servicio WFS
 cr_provincias_wfs <- paste0(url_base, solicitud_wfs)
@@ -196,15 +204,19 @@ plot(cr_provincias$geometry)
 ```
 
 Lectura de un archivo de valores separados por comas (CSV). Se utilizan datos de presencia de especies agrupados por la [Infraestructura Mundial de Información en Biodiversidad (GBIF)](https://www.gbif.org/):
-```{r}
+```{r warning=FALSE, message = FALSE}
 # Lectura del archivo CSV
-cr_ara_ambiguus <- st_read(
-  "https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/biodiversidad/registros-presencia/cr/cr-ara-ambiguus.csv", 
-  options=c("X_POSSIBLE_NAMES=decimalLongitude","Y_POSSIBLE_NAMES=decimalLatitude")
-)
+cr_ara_ambiguus <- 
+  st_read(
+    "https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/biodiversidad/registros-presencia/cr/cr-ara-ambiguus.csv", 
+    options = c("X_POSSIBLE_NAMES=decimalLongitude","Y_POSSIBLE_NAMES=decimalLatitude")
+  )
 
 # Mapeo del data frame
-plot(cr_ara_ambiguus$geometry, col="red")
+plot(
+  cr_ara_ambiguus$geometry, 
+  col="red"
+)
 ```
 
 Mapa de provincias y registros de presencia:
@@ -214,12 +226,16 @@ cr_provincias_wgs84 = st_transform(cr_provincias, 4326)
 
 # Primera capa del mapa
 plot(cr_provincias_wgs84$geometry, 
-     main="Distribución de Ara ambiguus en Costa Rica",
-     reset=FALSE, 
-     axes = TRUE,
-     graticule=TRUE
+  main="Distribución de Ara ambiguus en Costa Rica",
+  reset=FALSE, 
+  axes = TRUE,
+  graticule=TRUE
 )
 
 # Segunda capa
-plot(cr_ara_ambiguus$geometry, add=TRUE, col = "green")
+plot(
+  cr_ara_ambiguus$geometry, 
+  add = TRUE, 
+  col = "green"
+)
 ```
